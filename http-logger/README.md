@@ -18,7 +18,7 @@ A Http logger for Nodejs applications.
 </p>
 
 ### Installation
-Download the [ekarpovs-http-logger-0.0.0-development.tgz](https://github.com/ekarpovs/pakages-repo/http-logger) to your computer and  
+Download the [ekarpovs-http-logger-0.0.0-development.tgz](https://github.com/ekarpovs/pakages-repo/tree/main/http-logger) to your computer and  
 from the root directory of you project run the command:
 ```bash
   npm install <abs path to the archive>/ekarpovs-http-logger-0.0.0-development.tgz 

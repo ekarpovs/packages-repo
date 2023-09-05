@@ -18,7 +18,7 @@ A simple logger for Nodejs applications.
 </p>
 
 ### Installation
-Download the ekarpovs-simple-logger-0.0.0-development.tgz for you computer and  
+Download the [ekarpovs-simple-logger-0.0.0-development.tgz](https://github.com/ekarpovs/pakages-repo/tree/main/simple-logger) to your computer and  
 from the root directory of you project run the command:
 ```bash
   npm install <abs path to the archive>/ekarpovs-simple-logger-0.0.0-development.tgz 
