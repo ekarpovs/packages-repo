@@ -1,4 +1,4 @@
-## Simple Email Client
+## Simple Logger
 
 A simple logger for Nodejs applications.
 
@@ -17,7 +17,6 @@ A simple logger for Nodejs applications.
   </a>
 </p>
 
-## For the Email Client users:
 ### Installation
 Download the ekarpovs-simple-logger-0.0.0-development.tgz for you computer and  
 from the root directory of you project run the command:

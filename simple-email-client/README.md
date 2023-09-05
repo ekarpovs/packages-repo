@@ -1,6 +1,6 @@
-## Simple Logger
+## Simple Email Client
 
-A simple logger for nodejs applications.
+A simple email client for sending email via Gmail.
 
 <p>
   <a href="https://www.npmjs.com/package/@ekarpovs/simple-email-client" target="_blank">
