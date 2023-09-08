@@ -1,6 +1,7 @@
-## Authentication with session
+## Authentication with the session
 
-A auth with express session and passport, - a solution for Nodejs applications.
+An auth with the express session and the passport, - a solution for Nodejs applications.
+Uses MongoDb as a session storage.
 
 <p>
   <a href="https://www.npmjs.com/package/@ekarpovs/auth-session" target="_blank">
