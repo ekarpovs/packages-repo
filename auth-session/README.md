@@ -20,7 +20,7 @@ Uses MongoDb as a session storage.
 
 ### Installation
 ```bash
-  npm install @ekarpovs/auth-session
+  npm install @ekarpovs/auth-session (@ekarpovs/session-storage-mongo)
 ```
 ### Usage
 ```
@@ -32,18 +32,13 @@ Uses MongoDb as a session storage.
     CookieConfig,
     SessionConfig,
     StorageConfig 
-  } from '../src';
+  } from '@ekarpovs/auth-session';
+  
+// Optionally
+// import { sessionStorage } from '@ekarpovs/session-storage-mongo';
 
   // Somewhere in an application
   const app: Express = express();
-
-
-  // Configuration
-  const storageConfig: StorageConfig = {
-    uri: "",
-    db: "",
-    collection: "",
-  };
 
   const cookieConfig: CookieConfig = {
     secure: "false",
@@ -62,15 +57,113 @@ Uses MongoDb as a session storage.
 
   const authConfig: AuthConfig = {
     app: app,
-    storageConfig: storageConfig,
     User: BaseUser,
     sessionConfig: sessionConfig,
   };
 
+  // Optionally - use the session-storage
+    const storageConfig: StorageConfig = {
+    uri: "",
+    db: "",
+    collection: "",
+  };
+
+  // const storage = sessionStorage(storageConfig);
+  // authConfig.storage = { store: storage};
+
+
   // Initialization
   initAuth(authConfig);
+```
+### Extend BaseUser (example)
+```
+import { Schema } from "mongoose";
 
-  // Usage
-  ...
+import { BaseUser } from "@ekarpovs/auth-session";
 
+
+export interface UserInterface {
+  isSuperAdmin: boolean;
+  phone?: string;
+}
+
+const UserSchema = new Schema<UserInterface>({
+  isSuperAdmin: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  phone: {
+    type: String,
+    required: false,
+  },
+}, {collection: 'users'});
+
+export const User = BaseUser.discriminator("user", UserSchema);
+```
+
+### Protected router (example)
+```
+import { Router } from "express";
+
+import { checkAuthenticated } from "@ekarpovs/auth-session";
+import {
+  getAllUsers,
+  getUserById,
+} from "./controller";
+
+const userRouter = Router();
+
+userRouter.get("/", 
+  checkAuthenticated,
+  getAllUsers
+);
+
+userRouter.get(
+  "/user",
+  checkAuthenticated,
+  getUserById
+);
+
+export default userRouter;
+```
+
+### API
+  register:
+  	 url: https://{uri}/auth/register
+	 body: {
+	    "name": "",
+	    "email": "",
+	    "password": "",
+	    "isSuperAdmin": true (default- false) - extended user
+	}
+  
+  login:
+  	 url: https://{uri}/auth/login
+	 body: {
+	    "email": "",
+	    "password": ""
+	}
+  logout:
+  	url: https://{uri}/auth/logout
+  change password:
+  	url: https://{uri}/auth/change-password
+	body: {
+	    "email":"",
+	    "password":"",
+	    "passwordNew":""
+	} 
+  reset password request:
+   	url: https://{uri}/auth/reset-password-request
+   	body: {
+	    "email": ""
+	}
+
+  reset password:
+   	url: https://{uri}/auth/reset-password
+   	body: {
+	    "user": "",
+	    "token": "",
+	    "password": ""
+	}
 ```
