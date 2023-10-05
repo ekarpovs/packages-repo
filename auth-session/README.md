@@ -22,7 +22,11 @@ Uses MongoDb as a session storage.
 ```bash
   npm install @ekarpovs/auth-session (@ekarpovs/session-storage-mongo)
 ```
-### Usage
+### Installation
+```bash
+  npm install @ekarpovs/auth-session
+```
+### Usage:
 ```
   import express, { Express } from 'express';
 
@@ -31,15 +35,17 @@ Uses MongoDb as a session storage.
     BaseUser,
     CookieConfig,
     SessionConfig,
-    StorageConfig 
   } from '@ekarpovs/auth-session';
   
-// Optionally
-// import { sessionStorage } from '@ekarpovs/session-storage-mongo';
+  // Optional:
+  // import { StorageConfig, sessionStorage } from '@ekarpovs/session-storage';
+  // import { EmailClient } from '@ekarpovs/simple-email-client';
 
   // Somewhere in an application
   const app: Express = express();
 
+
+  // Configuration
   const cookieConfig: CookieConfig = {
     secure: "false",
     sameSite: "lax",
@@ -57,12 +63,13 @@ Uses MongoDb as a session storage.
 
   const authConfig: AuthConfig = {
     app: app,
+    storage: undefined,
     User: BaseUser,
     sessionConfig: sessionConfig,
   };
 
-  // Optionally - use the session-storage
-    const storageConfig: StorageConfig = {
+  // Optional: - inject session-storage
+  const storageConfig: StorageConfig = {
     uri: "",
     db: "",
     collection: "",
@@ -71,9 +78,18 @@ Uses MongoDb as a session storage.
   // const storage = sessionStorage(storageConfig);
   // authConfig.storage = { store: storage};
 
+  // Optional: inject simple-email-client
+  const config = {
+    name: "gmail",
+    user: "<the-account-owner-email>",
+    password: "<the-account-owner-password>"
+  };
 
-  // Initialization
+  const emailClient = new EmailClient(config);
+  authConfig.emailer = emailClient;
+
   initAuth(authConfig);
+
 ```
 ### Extend BaseUser (example)
 ```
@@ -129,41 +145,43 @@ export default userRouter;
 ```
 
 ### API
-  register:
-  	 url: https://{uri}/auth/register
-	 body: {
-	    "name": "",
-	    "email": "",
-	    "password": "",
-	    "isSuperAdmin": true (default- false) - extended user
-	}
-  
-  login:
-  	 url: https://{uri}/auth/login
-	 body: {
-	    "email": "",
-	    "password": ""
-	}
-  logout:
-  	url: https://{uri}/auth/logout
-  change password:
-  	url: https://{uri}/auth/change-password
-	body: {
-	    "email":"",
-	    "password":"",
-	    "passwordNew":""
-	} 
-  reset password request:
-   	url: https://{uri}/auth/reset-password-request
-   	body: {
-	    "email": ""
-	}
+```
+  register:  
+  	 url: https://{uri}/auth/register  
+	 body: {  
+	    "name": "",  
+	    "email": "",  
+	    "password": "",  
+	}  
+   
+  login:  
+  	 url: https://{uri}/auth/login  
+	 body: {  
+	    "email": "",  
+	    "password": ""  
+	}  
 
-  reset password:
-   	url: https://{uri}/auth/reset-password
-   	body: {
-	    "user": "",
-	    "token": "",
-	    "password": ""
-	}
+  logout:  
+  	url: https://{uri}/auth/logout  
+  change password:  
+  	url: https://{uri}/auth/change-password  
+	body: {  
+	    "email":"",  
+	    "password":"",  
+	    "passwordNew":""  
+	}  
+  
+  reset password request:  
+   	url: https://{uri}/auth/reset-password-request  
+   	body: {  
+	    "email": ""  
+	}  
+  
+  reset password:  
+   	url: https://{uri}/auth/reset-password  
+   	body: {  
+	    "user": "",  
+	    "token": "",  
+	    "password": ""  
+	}  
 ```
