@@ -30,7 +30,7 @@ const cfg: LoggerFormatter = {
   token: ':remote-addr :method :url :status :res[content-length] - :response-time ms'
 };
 
-const HttpLogger = initHttpLogger(cfg);
+const httpLogger = initHttpLogger(cfg);
 
 // Usage
 app.use(httpLogger);
