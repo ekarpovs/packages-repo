@@ -29,15 +29,6 @@ Only authorization-repo-mongo is implemented at present.
 ```
   The package @ekarpovs/authorization-repo<database> has to be installed.  
   The User model (table) has to have **role: string** property.  
-  The User controller (service) of the application has to provide a method  
-  for get a user data from a database.  
-    In the usage example - getUserData, something like (MongoDb):  
-
-    export const getUserData = async (userId: string) => {
-      return await User.findById(userId);
-};
-
-
 ```
 
 ### Usage  
