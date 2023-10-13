@@ -82,6 +82,16 @@ authConfig.logger = logger;
 
 const { authRouter, isAuthenticated } = initAuth(authConfig);
 
+const router = Router();
+router.use('/auth', authRouter);
+router.use(
+  '/users',
+  setupUserRouter({ isAuthenticated }),
+);
+
+...
+
+
 ```
 ### Extend BaseUser (example)
 ```
@@ -110,32 +120,31 @@ const UserSchema = new Schema<UserInterface>({
 export const User = BaseUser.discriminator("user", UserSchema);
 ```
 
-### Protected router (example)
+### Protected router (example of an implementation)
 ```
-import { Router } from "express";
+import { Router } from 'express';
 
+import { setupUserController } from './controller';
 
-const router = Router();
-router.use('/auth', authRouter);
-router.use(
-  '/users',
-  setupUserRouter({ isAuthenticated, isAuthorized, logger }),
-);
-
-userRouter.get("/", 
-  isAuthenticated,
-  getAllUsers
-);
-
-userRouter.get(
-  "/user",
-  isAuthenticated,
-  getUserById
-);
-
+export const setupUserRouter = ({ isAuthenticated }) => {
+  const cnt = setupUserController({ logger });
+  const router = Router();
+  router.get(
+    '/',
+    isAuthenticated,
+    cnt.getAllUsers,
+  );
+  router.get(
+    '/user',
+    isAuthenticated,
+    cnt.getUserById,
+  );
+  return router;
+};
 ```
 
 ### API
+```
   register:  
   	 url: https://{uri}/auth/register  
 	 body: {  
