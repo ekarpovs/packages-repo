@@ -15,7 +15,7 @@ which are dedicated to local testing before publishing to the NPM repo.
   See the corresponding README.md file.
 
 ### The infrastructure for a package development:
-#### 1. The empty application [for test a package(s)](https://github.com/ekarpovs/packages-repo);
+#### 1. The empty application [for test a package(s)](https://github.com/ekarpovs/node-typescript-package-tester);
 	The project includes:
 	 - all tools (for linting, building, testing, e.t.c.);
 	 - scripts for running these tools;
@@ -53,5 +53,21 @@ which are dedicated to local testing before publishing to the NPM repo.
 #### 5. Store the results:
    - Push the project into Github (create a remote repo for the package code).
    - Copy the .tgz and readme.md to the packages repo and push the commit.
-### The package is ready for a local testing in other applications.
-### Publish the package into the NPM repo after these tests. 
+### 6. The package is ready for a local testing in an application.
+
+### 7. Publish the package into the Github from GitHub Package Registry after these tests.  
+   - A package will be built and published automatically via CI/CD pipeline (Github Actions),
+### 8. Installation from the from GitHub Package Registry:  
+   - Go to: Settings -> Developer Settings -> Personal access tokens - Tokens(classic). 
+   - Create Personal access token in your Github account for Download packages  
+      from GitHub Package Registry with the permission - read:packages
+   - Create .npmrc file in the root directory of your project with the content:  
+```
+      @ekarpovs:registry=https://npm.pkg.github.com  
+      //npm.pkg.github.com/:_authToken=<YOUR_TOKEN>  
+      npm.pkg.github.com/:always-auth: false  
+```
+   - Install a package with the command:  
+```bash
+npm i --save @ekarpovs/<package name>
+```
