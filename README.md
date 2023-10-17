@@ -55,7 +55,7 @@ which are dedicated to local testing before publishing to the NPM repo.
    - Copy the .tgz and readme.md to the packages repo and push the commit.
 ### 6. The package is ready for a local testing in an application.
 
-### 7. Publish the package into the Github from GitHub Package Registry after these tests.  
+### 7. Publish the package into the Github Package Registry after these tests.  
    - A package will be built and published automatically via CI/CD pipeline (Github Actions),
 ### 8. Installation from the from GitHub Package Registry:  
    - Go to: Settings -> Developer Settings -> Personal access tokens - Tokens(classic). 
@@ -67,7 +67,9 @@ which are dedicated to local testing before publishing to the NPM repo.
       //npm.pkg.github.com/:_authToken=<YOUR_TOKEN>  
       npm.pkg.github.com/:always-auth: false  
 ```
-   - Install a package with the command:  
+   - Install/uninstall a package with the command:  
 ```bash
 npm i --save @ekarpovs/<package name>
+npm uninstall @ekarpovs/<package name>
+
 ```
